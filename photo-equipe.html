@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Photo de l'équipe</title>
+  <link href="https://fonts.googleapis.com/css2?family=Satoshi:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    html, body {
+      height: 100%;
+      font-family: 'Satoshi', sans-serif;
+      overflow: hidden;
+    }
+    .page-wrapper {
+      height: 100vh;
+      width: 100vw;
+      border: 12px solid #A279FE;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      background: linear-gradient(-45deg, #d5c4f2, #a7c4f4, #f3d1e6, #bdb6f0);
+      background-size: 400% 400%;
+      animation: gradientMove 20s ease infinite;
+    }
+    @keyframes gradientMove {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    .container {
+      text-align: center;
+      z-index: 2;
+      padding: 2rem;
+    }
+    h1 {
+      font-size: 2rem;
+      color: black;
+      margin-bottom: 2rem;
+    }
+    .photo-preview {
+      width: 300px;
+      height: 200px;
+      border-radius: 1.5rem;
+      border: 4px solid #A279FE;
+      box-shadow: 0 0 10px #A279FE, 0 0 20px #A279FE;
+      object-fit: cover;
+    }
+    .photo-button {
+      width: 300px;
+      margin-top: 2rem;
+      padding: 1rem 2rem;
+      font-size: 1.5rem;
+      font-weight: bold;
+      background: linear-gradient(145deg, #A279FE, #8E63E9);
+      color: white;
+      border: none;
+      border-radius: 2rem;
+      box-shadow: 0 0 10px #A279FE, 0 0 20px #A279FE;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 1rem;
+    }
+    .photo-button svg {
+      width: 30px;
+      height: 30px;
+    }
+    .ai-orb {
+      position: absolute;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 120px;
+      animation: float 3s ease-in-out infinite;
+    }
+    @keyframes float {
+      0% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(-15px); }
+      100% { transform: translateX(-50%) translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-wrapper">
+    <div class="container" style="display: flex; flex-direction: column; align-items: center;">
+      <h1>Prends une photo de ton équipe d’agents temporels !</h1>
+      <div style="position: relative; display: inline-block;">
+      <video id="video" autoplay playsinline class="photo-preview"></video>
+      <div id="countdown-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 4rem; color: white; font-weight: bold; background-color: rgba(0,0,0,0.3); display: none;"></div>
+    </div>
+      <button class="photo-button" id="capture-button">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+          <path d="M60.4173 16.666H39.584L29.1673 29.166H16.6673C14.4572 29.166 12.3376 30.044 10.7748 31.6068C9.21196 33.1696 8.33398 35.2892 8.33398 37.4993V74.9993C8.33398 77.2095 9.21196 79.3291 10.7748 80.8919C12.3376 82.4547 14.4572 83.3327 16.6673 83.3327H83.334C85.5441 83.3327 87.6637 82.4547 89.2265 80.8919C90.7893 79.3291 91.6673 77.2095 91.6673 74.9993V37.4993C91.6673 35.2892 90.7893 33.1696 89.2265 31.6068C87.6637 30.044 85.5441 29.166 83.334 29.166H70.834L60.4173 16.666Z" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M50 66.666C56.9036 66.666 62.5 61.0696 62.5 54.166C62.5 47.2625 56.9036 41.666 50 41.666C43.0964 41.666 37.5 47.2625 37.5 54.166C37.5 61.0696 43.0964 66.666 50 66.666Z" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+    </div>
+    <img src="boule_IA.png" alt="IA Orb" class="ai-orb">
+  </div>
+<script>
+  let stream;
+
+  function startCamera() {
+    const video = document.getElementById('video');
+    navigator.mediaDevices.getUserMedia({ video: true })
+      .then(s => {
+        stream = s;
+        video.srcObject = stream;
+      })
+      .catch(err => {
+        console.error('Erreur d\'accès à la caméra :', err);
+      });
+  }
+
+  window.onload = startCamera;
+
+  const captureButton = document.getElementById('capture-button');
+  const container = document.querySelector('.container');
+
+  captureButton.addEventListener('click', () => launchCapture());
+
+  function launchCapture() {
+    const video = document.getElementById('video');
+    let countdown = 3;
+    const countdownDisplay = document.getElementById('countdown-overlay');
+    countdownDisplay.style.display = 'flex';
+    countdownDisplay.innerText = countdown;
+
+    const interval = setInterval(() => {
+      countdown--;
+      if (countdown > 0) {
+        countdownDisplay.innerText = countdown;
+      } else {
+        clearInterval(interval);
+        countdownDisplay.style.display = 'none';
+
+        const canvas = document.createElement('canvas');
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+        const dataURL = canvas.toDataURL();
+
+        container.innerHTML = `
+          <h1>Choisie si tu veux la refaire.</h1>
+          <img src="${dataURL}" alt="Photo prise" class="photo-preview" />
+          <button class="photo-button">Valider</button>
+          <button class="photo-button" id="retry-button" style="margin-top: 1rem; background: white; color: #A279FE; border: 2px solid #A279FE;">Recommencer</button>
+        `;
+
+        const orb = document.querySelector('.ai-orb');
+        container.appendChild(orb);
+
+        document.getElementById('retry-button').addEventListener('click', () => {
+          container.innerHTML = `
+            <h1>Prends une photo de ton équipe d’agents temporels !</h1>
+            <div style="position: relative; display: inline-block;">
+              <video id="video" autoplay playsinline class="photo-preview"></video>
+              <div id="countdown-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 4rem; color: white; font-weight: bold; background-color: rgba(0,0,0,0.3); display: none;"></div>
+            </div>
+            <button class="photo-button" id="capture-button">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+                <path d="M60.4173 16.666H39.584L29.1673 29.166H16.6673C14.4572 29.166 12.3376 30.044 10.7748 31.6068C9.21196 33.1696 8.33398 35.2892 8.33398 37.4993V74.9993C8.33398 77.2095 9.21196 79.3291 10.7748 80.8919C12.3376 82.4547 14.4572 83.3327 16.6673 83.3327H83.334C85.5441 83.3327 87.6637 82.4547 89.2265 80.8919C90.7893 79.3291 91.6673 77.2095 91.6673 74.9993V37.4993C91.6673 35.2892 90.7893 33.1696 89.2265 31.6068C87.6637 30.044 85.5441 29.166 83.334 29.166H70.834L60.4173 16.666Z" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M50 66.666C56.9036 66.666 62.5 61.0696 62.5 54.166C62.5 47.2625 56.9036 41.666 50 41.666C43.0964 41.666 37.5 47.2625 37.5 54.166C37.5 61.0696 43.0964 66.666 50 66.666Z" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+          `;
+
+          const orb = document.querySelector('.ai-orb');
+          container.appendChild(orb);
+
+          startCamera();
+          document.getElementById('capture-button').addEventListener('click', () => launchCapture());
+        });
+      }
+    }, 1000);
+  }
+</script>
+</body>
+</html>

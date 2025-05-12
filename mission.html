@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ChronoVita - Mission</title>
+  <link href="https://fonts.googleapis.com/css2?family=Satoshi:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      height: 100%;
+      font-family: 'Satoshi', sans-serif;
+      overflow: hidden;
+      background: black;
+      position: relative;
+    }
+
+    .page-wrapper {
+      height: 100vh;
+      width: 100vw;
+      border: 12px solid #A279FE;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .background {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(-45deg, #d5c4f2, #a7c4f4, #f3d1e6, #bdb6f0);
+      background-size: 400% 400%;
+      animation: gradientMove 20s ease infinite;
+      z-index: 1;
+    }
+
+    @keyframes gradientMove {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: flex-start;
+      height: 100%;
+      width: 100%;
+      text-align: left;
+      padding: 80px;
+      color: black;
+      position: relative;
+      z-index: 2;
+    }
+
+    .mission-text {
+      font-size: 2.5rem;
+      font-weight: 700;
+      max-width: 50ch;
+      line-height: 1.4;
+      min-height: 10rem;
+      margin-top: 2rem;
+    }
+
+    .ai-orb {
+      position: absolute;
+      bottom: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 160px;
+      height: auto;
+      animation: float 2.5s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(-15px); }
+      100% { transform: translateX(-50%) translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-wrapper">
+    <div class="background"></div>
+    <div class="container">
+      <div id="mission" class="mission-text"></div>
+      <img src="boule_IA.png" class="ai-orb" alt="IA Orb" id="orb">
+    </div>
+  </div>
+
+  <script>
+    const message = "Bienvenue agent temporel. Ta mission : rétablir l’équilibre des climats passés pour sauver notre futur...";
+    let index = 0;
+    let interval;
+
+    function startMission() {
+      if (interval) return;
+      interval = setInterval(() => {
+        document.getElementById("mission").textContent = message.slice(0, index);
+        index++;
+        if (index > message.length) {
+          clearInterval(interval);
+          setTimeout(() => {
+            window.location.href = 'question.html';
+          }, 1000);
+        }
+      }, 45);
+    }
+    window.onload = startMission;
+  </script>
+</body>
+</html>

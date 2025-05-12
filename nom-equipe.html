@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nom de ton équipe</title>
+  <link href="https://fonts.googleapis.com/css2?family=Satoshi:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      height: 100%;
+      font-family: 'Satoshi', sans-serif;
+      overflow: hidden;
+    }
+
+    .page-wrapper {
+      height: 100vh;
+      width: 100vw;
+      border: 12px solid #A279FE;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+
+    .background {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(-45deg, #d5c4f2, #a7c4f4, #f3d1e6, #bdb6f0);
+      background-size: 400% 400%;
+      animation: gradientMove 20s ease infinite;
+      z-index: 1;
+    }
+
+    @keyframes gradientMove {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .container {
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      width: 100%;
+      padding: 2rem;
+    }
+
+    h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 2rem;
+      color: black;
+    }
+
+    .input-group {
+      display: flex;
+      align-items: center;
+      background: white;
+      border: 4px solid #A279FE;
+      border-radius: 2rem;
+      box-shadow: 0 0 10px #A279FE, 0 0 20px #A279FE;
+      padding: 0.8rem 1rem;
+      width: 80%;
+      max-width: 500px;
+    }
+
+    .input-group input {
+      flex: 1;
+      border: none;
+      outline: none;
+      font-size: 1.2rem;
+      font-family: 'Satoshi', sans-serif;
+    }
+
+    .input-group button {
+      background: none;
+      border: none;
+      padding: 0;
+      margin-left: 10px;
+      cursor: pointer;
+    }
+
+    .input-group svg {
+      width: 32px;
+      height: 32px;
+    }
+
+    .ai-orb {
+      position: absolute;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 140px;
+      animation: float 3s ease-in-out infinite;
+      z-index: 2;
+    }
+
+    @keyframes float {
+      0% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(-15px); }
+      100% { transform: translateX(-50%) translateY(0); }
+    }
+      .validate-button {
+      margin-top: 2rem;
+      padding: 1rem 2rem;
+      font-size: 1.2rem;
+      font-weight: bold;
+      background: linear-gradient(145deg, #A279FE, #8E63E9);
+      color: white;
+      border: none;
+      border-radius: 2rem;
+      box-shadow: 0 0 10px #A279FE, 0 0 20px #A279FE;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+      width: 80%;
+      max-width: 500px;
+    }
+
+    .validate-button:hover {
+      transform: scale(1.05);
+    }
+</style>
+</head>
+<body>
+  <div class="page-wrapper">
+    <div class="background"></div>
+    <div class="container">
+      <h1>Quel est le nom de ton équipe temporelle ?</h1>
+      <div class="input-group" id="inputGroup">
+        <input type="text" id="teamName" placeholder="">
+        <button type="button" onclick="cycleName()" style="outline: none; box-shadow: none;">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+            <path d="M32.0007 26.666H10.6673C7.7218 26.666 5.33398 29.0538 5.33398 31.9993V53.3327C5.33398 56.2782 7.7218 58.666 10.6673 58.666H32.0007C34.9462 58.666 37.334 56.2782 37.334 53.3327V31.9993C37.334 29.0538 34.9462 26.666 32.0007 26.666Z" stroke="black" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M47.786 37.3341L57.1194 28.0008C58.1088 26.9034 58.6564 25.4783 58.6564 24.0008C58.6564 22.5232 58.1088 21.0981 57.1194 20.0008L43.786 6.88079C42.6887 5.89136 41.2636 5.34375 39.786 5.34375C38.3085 5.34375 36.8834 5.89136 35.786 6.88079L26.666 16.0008" stroke="black" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M16 48H16.0267" stroke="black" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M26.666 37.334H26.6927" stroke="black" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M40 16H40.0267" stroke="black" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M48 24H48.0267" stroke="black" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      <div id="error-message" style="color: red; margin-top: 1rem; display: none; font-weight: bold;">Merci d’entrer un nom d’équipe.</div>
+    </div>
+    <button class="validate-button" onclick="validateName()">Valider</button>
+    </div>
+    <img src="boule_IA.png" alt="IA Orb" class="ai-orb">
+  </div>
+
+  <script>
+  const teamNames = ["NovaChronos", "Les Éclipsés", "Temporalys", "Les Rétroflux", "Equinoxe 7"];
+  let currentIndex = 0;
+
+  function cycleName() {
+    const input = document.getElementById("teamName");
+    input.value = teamNames[currentIndex];
+    document.getElementById('inputGroup').style.border = "4px solid #A279FE";
+    document.getElementById("error-message").style.display = "none";
+    currentIndex = (currentIndex + 1) % teamNames.length;
+  }
+
+  function validateName() {
+    const input = document.getElementById("teamName");
+    const name = input.value.trim();
+    const error = document.getElementById("error-message");
+
+    if (name !== "") {
+      input.style.border = "4px solid #A279FE";
+      error.style.display = "none";
+      alert(`Nom validé : ${name}`);
+      // Redirige si souhaité : window.location.href = 'page-suivante.html';
+    } else {
+      document.getElementById('inputGroup').style.border = "4px solid red";
+      error.style.display = "block";
+    }
+  }
+</script>
+</body>
+</html>

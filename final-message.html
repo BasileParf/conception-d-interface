@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Merci agent !</title>
+  <link href="https://fonts.googleapis.com/css2?family=Satoshi:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    html, body {
+      height: 100%;
+      font-family: 'Satoshi', sans-serif;
+      overflow: hidden;
+    }
+    .page-wrapper {
+      height: 100vh;
+      width: 100vw;
+      border: 12px solid #A279FE;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      background: linear-gradient(-45deg, #d5c4f2, #a7c4f4, #f3d1e6, #bdb6f0);
+      background-size: 400% 400%;
+      animation: gradientMove 20s ease infinite;
+    }
+    @keyframes gradientMove {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    .container {
+      text-align: left;
+      padding: 2rem;
+      max-width: 90%;
+    }
+    #message {
+      font-size: 2rem;
+      font-weight: 700;
+      color: black;
+      line-height: 1.6;
+    }
+    .highlight {
+      background: linear-gradient(90deg, #A279FE, #8E63E9);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-weight: bold;
+    }
+    .ai-orb {
+      position: absolute;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 120px;
+      animation: float 3s ease-in-out infinite;
+    }
+    @keyframes float {
+      0% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(-15px); }
+      100% { transform: translateX(-50%) translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-wrapper">
+    <div class="container">
+      <p id="message"></p>
+    </div>
+    <img src="boule_IA.png" alt="IA Orb" class="ai-orb">
+  </div>
+  <script>
+    const fullMessage = [
+  "Merci agent ! ",
+  "Récupère ton ticket et ",
+  "commence ta mission ",
+  "dans le musée."
+];
+    const messageEl = document.getElementById("message");
+
+    let partIndex = 0;
+    let charIndex = 0;
+function typeWriter() {
+  if (partIndex >= fullMessage.length) return;
+  const part = fullMessage[partIndex];
+  const currentEl = document.createElement(partIndex === 2 ? 'span' : 'span');
+  if (partIndex === 2) currentEl.classList.add('highlight');
+  messageEl.appendChild(currentEl);
+  const content = part;
+
+  function typeChar() {
+    if (charIndex < content.length) {
+      currentEl.innerHTML += content[charIndex];
+      charIndex++;
+      setTimeout(typeChar, 40);
+    } else {
+      partIndex++;
+      charIndex = 0;
+      typeWriter();
+    }
+  }
+  typeChar();
+}
+
+window.onload = () => {
+  typeWriter();
+  setTimeout(() => {
+    window.location.href = 'index.html';
+  }, 5000);
+};
+  </script>
+</body>
+</html>

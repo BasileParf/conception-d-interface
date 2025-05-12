@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Souhaites-tu continuer ?</title>
+  <link href="https://fonts.googleapis.com/css2?family=Satoshi:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      height: 100%;
+      font-family: 'Satoshi', sans-serif;
+      overflow: hidden;
+      background: black;
+    }
+
+    .page-wrapper {
+      height: 100vh;
+      width: 100vw;
+      border: 12px solid #A279FE;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+
+    .background {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(-45deg, #d5c4f2, #a7c4f4, #f3d1e6, #bdb6f0);
+      background-size: 400% 400%;
+      animation: gradientMove 20s ease infinite;
+      z-index: 1;
+    }
+
+    @keyframes gradientMove {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      position: relative;
+      z-index: 2;
+      color: black;
+      padding: 2rem;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 3rem;
+    }
+
+    .button {
+      font-size: 1.2rem;
+      font-weight: 700;
+      padding: 1.2rem 2.5rem;
+      margin: 1rem 0;
+      border-radius: 3rem;
+      border: none;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.3s ease;
+      width: 100%;
+      max-width: 420px;
+    }
+
+    .button:active {
+      transform: scale(0.97);
+    }
+
+    .btn-primary {
+      background: linear-gradient(145deg, #A279FE, #8E63E9);
+      color: white;
+      box-shadow: 0 0 8px #A279FE, 0 0 16px #A279FE;
+    }
+
+    .btn-secondary {
+      background: linear-gradient(145deg, #ffffff, #f3ebff);
+      color: #A279FE;
+      border: 4px solid #A279FE;
+      box-shadow: 0 0 6px #A279FE, 0 0 12px #A279FE;
+    }
+
+    .ai-orb {
+      position: absolute;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 140px;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(-15px); }
+      100% { transform: translateX(-50%) translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-wrapper">
+    <div class="background"></div>
+    <div class="container">
+      <h1>Souhaites-tu continuer ?</h1>
+      <button class="button btn-primary">Oui, je suis prêt !</button>
+      <button class="button btn-secondary">Non, une autre fois</button>
+    </div>
+    <img src="boule_IA.png" alt="IA Orb" class="ai-orb">
+  </div>
+</body>
+</html>
